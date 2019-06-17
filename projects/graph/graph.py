@@ -26,20 +26,59 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        print('\n\nBFT:\n')
+        visited = set()
+        q = Queue()
+        q.enqueue(starting_vertex)
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for neighbor in self.vertices[v]:
+                    q.enqueue(neighbor)
+        #  Create an empty set to store visited nodes
+        #  Crea3te an empty Queue an enqueue the starting vertex
+        #  While the Queue is not empty...
+            # Dequeue the first vertex
+            #  If that vertex has not been visited...
+                #  Mark it ad visited
+                #  Then add all of its neighbors to the back of the queue
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
-    def dft_recursive(self, starting_vertex):
+        print('\n\nDFT:\n')
+        visited = set()
+        s = Stack()
+        s.push(starting_vertex)
+        while s.size() > 0:
+            v = s.pop()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for neighbor in self.vertices[v]:
+                    s.push(neighbor)
+    def dft_recursive(self, starting_vertex, visited=set()):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         This should be done using recursion.
         """
-        pass  # TODO
+        if len(visited) < 1:
+            print('\n\nDFT Recursive:\n')
+        s = Stack()
+        s.push(starting_vertex)
+        while s.size() > 0:
+            v = s.pop()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for neighbor in self.vertices[v]:
+                    self.dft_recursive(neighbor, visited)
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
