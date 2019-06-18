@@ -85,14 +85,71 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        print('\n\nBFS:\n')
+        #  Create an empty Queue and enqueue A PATH TO the starting vertex
+        q = Queue()
+        #  Create an empty set to store visited nodes
+        visited = set()
+        q.enqueue([starting_vertex])
+
+        #  While the queue is not empty..
+        while q.size() > 0:
+            #  Dequeue the first PATH
+            path = q.dequeue()
+            #  GRAB THE VERTEX FROM THE END OF THE PATH
+            v = path[-1]
+            #  IF VERTEX == TARGET...
+            if v == destination_vertex:
+                # RETURN PATH
+                return path
+            #  If that vertex has not been visited...
+            if v not in visited:
+                #  Mark it as visited
+                visited.add(v)
+                #  Then add A PATH TO ALL of its neighbors to the back of the queue
+                for neighbor in self.vertices[v]:
+                    #  Copy the path
+                    path_copy = list(path)
+                    #  Append neighbor to the back of the copy
+                    path_copy.append(neighbor)
+                    #  Enqueue copy
+                    q.enqueue(path_copy)
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        print('\n\nDFS:\n')
+        #  Create an empty Queue and enqueue A PATH TO the starting vertex
+        s = Stack()
+        #  Create an empty set to store visited nodes
+        visited = set()
+        s.push([starting_vertex])
+
+        #  While the queue is not empty..
+        while s.size() > 0:
+            #  Dequeue the first PATH
+            path = s.pop()
+            #  GRAB THE VERTEX FROM THE END OF THE PATH
+            v = path[-1]
+            #  IF VERTEX == TARGET...
+            if v == destination_vertex:
+                # RETURN PATH
+                return path
+            #  If that vertex has not been visited...
+            if v not in visited:
+                #  Mark it as visited
+                visited.add(v)
+                #  Then add A PATH TO ALL of its neighbors to the back of the queue
+                for neighbor in self.vertices[v]:
+                    #  Copy the path
+                    path_copy = list(path)
+                    #  Append neighbor to the back of the copy
+                    path_copy.append(neighbor)
+                    #  push copy
+                    s.push(path_copy)
 
 
 
