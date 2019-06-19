@@ -208,6 +208,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 5, 6
     '''
     graph.bft(1)
+    # graph.bft(6)
 
     '''
     Valid DFT recursive paths:
@@ -223,6 +224,7 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
     '''
     print(graph.bfs(1, 6))
+    # print(graph.bfs(6, 1))
 
     '''
     Valid DFS paths:
