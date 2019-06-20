@@ -1,5 +1,6 @@
 
 import random
+import time
 
 class Queue():
     def __init__(self):
@@ -74,6 +75,67 @@ class SocialGraph:
                 
         return self.friendships
 
+
+    # def populateGraph(self, numUsers, avgFriendships):
+    #     """
+    #     Takes a number of users and an average number of friendships
+    #     as arguments
+
+    #     Creates that number of users and a randomly distributed friendships
+    #     between those users.
+
+    #     The number of users must be greater than the average number of friendships.
+    #     """
+    #     # Reset graph
+    #     self.lastID = 0
+    #     self.users = {}
+    #     self.friendships = {}
+    #     # !!!! IMPLEMENT ME
+
+    #     # Add users
+    #     # O(n)
+    #     for i in range(numUsers):
+    #         self.addUser(f"User {i + 1}")
+
+    #     # Create friendships
+    #     possibleFriendships = []
+    #     # Time Complexity: O(n^2)
+    #     for userID in self.users:
+    #         for friendID in range(userID + 1, self.lastID + 1):
+    #             possibleFriendships.append((userID, friendID))
+
+    #     friendshipsToCreate = random.sample(possibleFriendships, (numUsers * avgFriendships) // 2)
+    #     # numFriendshipsToCreate = (numUsers * avgFriendships) // 2
+    #     # random.shuffle(possibleFriendships)
+    #     # friendshipsToCreate = possibleFriendships[:numFriendshipsToCreate]
+    #     for friendship in friendshipsToCreate:
+    #         self.addFriendship(friendship[0], friendship[1])
+
+
+    # def populateGraphLinear(self, numUsers, avgFriendships):
+    #     # Reset graph
+    #     self.lastID = 0
+    #     self.users = {}
+    #     self.friendships = {}
+    #     # !!!! IMPLEMENT ME
+
+    #     # Add users
+    #     # O(n)
+    #     for i in range(numUsers):
+    #         self.addUser(f"User {i + 1}")
+
+    #     targetFriendships = numUsers * avgFriendships
+    #     totalFriendships = 0
+    #     collisions = 0
+    #     while totalFriendships < targetFriendships:
+    #         userID = random.randint(1, self.lastID)
+    #         friendID = random.randint(1, self.lastID)
+    #         if self.addFriendship(userID, friendID):
+    #             totalFriendships += 2
+    #         else:
+    #             collisions += 1
+    #     print(f"COLLISIONS: {collisions}")
+
     def getAllSocialPaths(self, userID):
         """
         Takes a user's userID as an argument
@@ -102,7 +164,10 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(1000, 5)
-    print(sg.friendships)
-    connections = sg.getAllSocialPaths(1)
-    print(connections)
+    start_time = time.time()
+    sg.populateGraph(50, 49)
+    end_time = time.time()
+    print(f'Runtime: {end_time - start_time} seconds')
+    # print(sg.friendships)
+    # connections = sg.getAllSocialPaths(1)
+    # print(connections)
