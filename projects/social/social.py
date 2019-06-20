@@ -49,7 +49,7 @@ class SocialGraph:
         for user in range(1, numUsers + 1):
             self.addUser(user)
         # Create friendships
-        for i in range(1, numUsers + 1):
+        for i in range(0, (numUsers*avgFriendships)//2):
             rand_user = random.randint(1, numUsers)
             rand_friend = random.randint(1, numUsers)
             #  Ensure rand_user != rand_friend & that they are not already friends
@@ -57,7 +57,6 @@ class SocialGraph:
                 # generate new rand_friend
                 rand_friend = random.randint(1, numUsers - 1)
             # Add friendship
-            print(f'HERE: {i}')
             self.addFriendship(rand_user, rand_friend)
                 
         return self.friendships
@@ -78,7 +77,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populateGraph(10, 2)
+    sg.populateGraph(13, 3)
     print(sg.friendships)
     # connections = sg.getAllSocialPaths(1)
     # print(connections)
