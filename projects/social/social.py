@@ -45,17 +45,21 @@ class SocialGraph:
         self.lastID = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
-
         # Add users
         for user in range(1, numUsers + 1):
-            self.users[user] = set()
+            self.addUser(user)
         # Create friendships
-        self.friendships = self.users
-        for i in range(1, (numUsers * avgFriendships) + 1):
-            rand_user = random.randint(1, numUsers - 1)
-            rand_friend = random.randint(1, numUsers - 1)
-            self.friendships[rand_user].add(rand_friend)
+        for i in range(1, numUsers + 1):
+            rand_user = random.randint(1, numUsers)
+            rand_friend = random.randint(1, numUsers)
+            #  Ensure rand_user != rand_friend & that they are not already friends
+            while (rand_user == rand_friend) or (rand_friend in self.friendships[rand_user] or rand_user in self.friendships[rand_friend]):
+                # generate new rand_friend
+                rand_friend = random.randint(1, numUsers - 1)
+            # Add friendship
+            print(f'HERE: {i}')
+            self.addFriendship(rand_user, rand_friend)
+                
         return self.friendships
 
     def getAllSocialPaths(self, userID):
