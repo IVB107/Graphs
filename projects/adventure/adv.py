@@ -21,9 +21,92 @@ world.printRooms()
 
 player = Player("Name", world.startingRoom)
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 # Fill this out
 traversalPath = []
+graph = {}
+backwards = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
 
+def bfs(graph, starting_room):
+    visited = set()
+    q = Queue()
+    q.enqueue([starting_room])
+    while q.size() > 0:
+        path = q.dequeue()
+        room = path[-1]
+        if room not in visited:
+            visited.add(room)
+            for exit in graph[room]:
+                # Direct yourself to unexplored room
+                if graph[room][exit] == '?':
+                    return path
+            # Check each of the adjacent rooms
+            for exit in graph[room]:
+                neighbor = graph[room][exit]
+                new_path = list(path)
+                new_path.append(neighbor)
+                q.enqueue(new_path)
+    return None
+
+while len(graph) < len(roomGraph):
+    current = player.currentRoom.id
+    print(f'Current Room: {current}')
+    # Add room to dictionary if it doesn't exist
+    if current not in graph:
+        graph[current] = {}
+        for exit in player.currentRoom.getExits():
+            graph[current][exit] = '?'
+
+    move = None
+    for exit in graph[current]:
+        if graph[current][exit] == '?':
+            move = exit
+            traversalPath.append(move)
+            # Store room id to add as path from next room
+            last = current
+            print(f'Moving {move} to next room...')
+            player.travel(move)
+            current = player.currentRoom.id
+            # Add room to dictionary if it doesn't exist
+            if current not in graph:
+                graph[current] = {}
+                for exit in player.currentRoom.getExits():
+                    graph[current][exit] = '?'
+            # Mark edge/relationship between rooms in graph
+            print(f'LAST: {last}')
+            graph[last][move] = current
+            graph[current][backwards[move]] = last
+            break
+
+    path = bfs(graph, current)
+    print(f'BFS PATH: {path}')
+    # If unexplored rooms remain...
+    if path:
+        for room in path:
+            for move in graph[current]:
+                # Follow the path
+                if graph[current][move] == room:
+                    traversalPath.append(move)
+                    player.travel(move)
+            current = player.currentRoom.id
+
+# !!! USE BFS TO TRAVERSE BACK FROM DEAD-END TO LAST ROOM WITH UNSEARCHED EXITS
+
+print(f'Graph: {graph}')
+print(f'Current Room: {player.currentRoom.id}')
+print(f'Exits: {player.currentRoom.getExits()}')
 
 
 # TRAVERSAL TEST
@@ -46,10 +129,10 @@ else:
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-# player.currentRoom.printRoomDescription(player)
-# while True:
-#     cmds = input("-> ").lower().split(" ")
-#     if cmds[0] in ["n", "s", "e", "w"]:
-#         player.travel(cmds[0], True)
-#     else:
-#         print("I did not understand that command.")
+player.currentRoom.printRoomDescription(player)
+while True:
+    cmds = input("-> ").lower().split(" ")
+    if cmds[0] in ["n", "s", "e", "w"]:
+        player.travel(cmds[0], True)
+    else:
+        print("I did not understand that command.")
